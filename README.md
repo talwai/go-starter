@@ -1,4 +1,4 @@
 go-starter
 ==========
 
-Starter Go App
+Starter Go App :: Gestalt

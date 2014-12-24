@@ -5,6 +5,12 @@ import (
     "log"
 )
 
+type CommandMessage struct {
+    Id int32 `json:"id"`
+    SenderId int32 `json:"sender_id"`
+    CommandString string `json:"command_string"`
+}
+
 type saySomethingHandler struct {
     whatToSay string
 }
@@ -18,6 +24,7 @@ func main() {
 
     rh := http.RedirectHandler("http://www.google.com", 307)
     mux.Handle("/foo", rh)
+
     //mux.Handle requires an explicit http.Handler() object
     sh := &saySomethingHandler{whatToSay: "hello"}
     mux.Handle("/hello", sh)
