@@ -2,6 +2,7 @@ import os
 import zmq
 
 import constants
+from message import ZMQMessage
 
 MASTER_IP = os.environ.get('MASTER_IP', 'localhost')
 MASTER_PORT = os.environ.get('MASTER_PORT', 4550)
@@ -18,8 +19,9 @@ socket.connect('tcp://{0}:{1}'.format(MASTER_IP, MASTER_PORT))
 
 
 while True:
-    s = socket.recv()
-    if s.startswith(constants.COMMAND_TOPIC):
-        s = s[4:]
+    received_msg = socket.recv()
+    _parsed = ZMQMessage.parse_msg(received_message)
+    msg_class = ZMQMessage.get_message_class(_parsed)
 
-    print(s)
+    msg = msg_class(**_parsed)
+    msg.process(with_socket=socket)
