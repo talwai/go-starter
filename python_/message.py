@@ -14,12 +14,14 @@ class ZMQMessage(object):
         self.content = content
 
     @staticmethod
-    def parse_msg(msg_object):
+    def parse_msg(msg_str):
         # Msg is either plaintext string, JSON string, or pickled Python object
         # For now, assume plain string
-        topic, content = msg.split(' ')
+        splt = msg_str.decode().split(' ')
+        topic, content = splt[0], ' '.join(splt[1:])
+
         return {
-                'id': _get_next_id()
+                'id': _get_next_id(),
                 'topic': topic,
                 'content': content
         }
@@ -48,4 +50,5 @@ class CMDMessage(ZMQMessage):
         socket = with_socket if with_socket else _request_global_socket()
         cmd_str = self.content.split(' ')
         ret = subprocess.call(cmd_str)
-        socket.send(ret.encode())
+        #socket.send(ret.encode())
+        print(ret)

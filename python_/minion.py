@@ -20,7 +20,7 @@ socket.connect('tcp://{0}:{1}'.format(MASTER_IP, MASTER_PORT))
 
 while True:
     received_msg = socket.recv()
-    _parsed = ZMQMessage.parse_msg(received_message)
+    _parsed = ZMQMessage.parse_msg(received_msg)
     msg_class = ZMQMessage.get_message_class(_parsed)
 
     msg = msg_class(**_parsed)
